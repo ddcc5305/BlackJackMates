@@ -35,21 +35,18 @@ public class Deck : MonoBehaviour
         DisableGameControls();
     }
 
-    // Configura el dropdown de apuestas mejorado
     private void SetupBetDropdown()
     {
         betDropdown.ClearOptions();
 
-        // Añadir opción 0 (placeholder)
         betDropdown.options.Add(new Dropdown.OptionData("Selecciona apuesta"));
 
-        // Crear opciones de apuesta (10, 20, ..., hasta el máximo posible)
-        for (int i = 1; i <= 10; i++)
+        int[] betMultiples = { 10, 100, 1000 };
+        foreach (int multiple in betMultiples)
         {
-            int betAmount = i * 10;
-            if (betAmount <= bank)
+            if (multiple <= bank)
             {
-                betDropdown.options.Add(new Dropdown.OptionData(betAmount.ToString()));
+                betDropdown.options.Add(new Dropdown.OptionData(multiple.ToString()));
             }
         }
 
@@ -90,11 +87,9 @@ public class Deck : MonoBehaviour
 
     public void OnBetSelected(int index)
     {
-        // Ignorar la selección si es el placeholder (índice 0)
         if (index == 0 || index >= betDropdown.options.Count)
         {
-            betDropdown.value = 0; // Resetear al placeholder
-            return;
+            betDropdown.value = 0;
         }
 
         string selectedOption = betDropdown.options[index].text;
